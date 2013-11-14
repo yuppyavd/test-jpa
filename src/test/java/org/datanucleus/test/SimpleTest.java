@@ -34,7 +34,7 @@ public class SimpleTest
         {
             tx.begin();
 
-            Person person = new Person(1, "test", new Date());
+            Person person = new Person(1, "test", new Date(System.currentTimeMillis() - 1000));
             em.persist(person);
 
             CriteriaBuilder cb = em.getCriteriaBuilder();
@@ -49,6 +49,7 @@ public class SimpleTest
             
             Assert.assertNotNull(result);
             Assert.assertEquals(1, result.size());
+            Assert.assertTrue(result.get(0).getCreatedInPast());
             
             tx.commit();
         }
