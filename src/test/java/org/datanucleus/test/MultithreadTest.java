@@ -1,11 +1,14 @@
 package org.datanucleus.test;
 
 import org.junit.*;
+
 import javax.persistence.*;
 
 import static org.junit.Assert.*;
-import mydomain.model.*;
+
 import org.datanucleus.util.NucleusLogger;
+
+import pl.avd.model.*;
 
 public class MultithreadTest
 {

@@ -1,11 +1,24 @@
 package org.datanucleus.test;
 
-import org.junit.*;
-import javax.persistence.*;
+import static org.junit.Assert.fail;
 
-import static org.junit.Assert.*;
-import mydomain.model.*;
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.datanucleus.util.NucleusLogger;
+import org.junit.Assert;
+import org.junit.Test;
+
+import pl.avd.model.Person;
 
 public class SimpleTest
 {
@@ -21,7 +34,22 @@ public class SimpleTest
         {
             tx.begin();
 
-            // [INSERT code here to persist object required for testing]
+            Person person = new Person(1, "test", new Date());
+            em.persist(person);
+
+            CriteriaBuilder cb = em.getCriteriaBuilder();
+            
+            CriteriaQuery<PersonDTO> cq = cb.createQuery(PersonDTO.class);
+            Root<Person> r = cq.from(Person.class);
+            
+            cq.multiselect(r.get("id"), r.get("name"), cb.lessThan(r.<Date> get("created"), cb.currentDate()));
+            
+            TypedQuery<PersonDTO> tq = em.createQuery(cq);
+            List<PersonDTO> result = tq.getResultList();
+            
+            Assert.assertNotNull(result);
+            Assert.assertEquals(1, result.size());
+            
             tx.commit();
         }
         catch (Throwable thr)
