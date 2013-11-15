@@ -1,16 +1,16 @@
 package org.datanucleus.test;
 
-public class PersonDTO {
+public class PersonLessThanDTO {
 
   private Long id;
   private String name;
   private Boolean createdInPast;
 
-  public PersonDTO()
+  public PersonLessThanDTO()
   {
   }
   
-  public PersonDTO(Long id, String name, Boolean createdInPast)
+  public PersonLessThanDTO(Long id, String name, Boolean createdInPast)
   {
     this.id = id;
     this.name = name;
@@ -50,6 +50,6 @@ public class PersonDTO {
   @Override
   public String toString()
   {
-    return String.format("PersonDTO [id=%s, name=%s, hasName=%s, createdInPast=%s]", id, name, createdInPast);
+    return String.format("PersonLessThanDTO [id=%s, name=%s, createdInPast=%s]", id, name, createdInPast);
   }
 }
